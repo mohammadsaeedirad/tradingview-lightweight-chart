@@ -65,7 +65,7 @@ const lightWeightChart = () => {
         rightOffset: 2,
       },
       width: chartContainerRef.current.clientWidth,
-      height: 400,
+      height: 300,
     });
     chart.timeScale().fitContent();
 

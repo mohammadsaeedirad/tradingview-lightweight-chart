@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createChart, ColorType } from "lightweight-charts";
 
 const lightWeightChart = () => {
+  const [locale, setLocale] = useState("en-US");
+  const [locales, setLocales] = useState(["en-US", "ja-JA", "fa-IR"]);
   const data = [
     { time: "2018-12-1", value: 39.81 },
     { time: "2018-12-7", value: 36.81 },
@@ -47,15 +49,25 @@ const lightWeightChart = () => {
     const handleResize = () => {
       chart.applyOptions({ width: chartContainerRef.current.clientWidth });
     };
-
     const chart = createChart(chartContainerRef.current, {
+      //   crosshair: {
+      //     mode: CrosshairMode.Normal,
+      //   },
+
       localization: {
-        locale: "en-US",
+        locale: locale,
         dateFormat: "yyyy-MM-dd HH:MM",
       },
+      entireTextOnly: true,
       priceLineVisible: false,
       lastValueVisible: false,
       overlay: true,
+
+      mouseMove: {
+        time: false,
+        price: false,
+      },
+
       layout: {
         background: { type: ColorType.Solid, color: backgroundColor },
         textColor,
@@ -68,8 +80,23 @@ const lightWeightChart = () => {
           color: "#222328",
         },
       },
+      //   chart.priceScale("right").applyOptions({
+      //     scaleMargins: {
+      //       top: 100.8,
+      //       bottom: 0,
+      //     },
+      //   });
       priceScale: {
         borderColor: "#485c7b",
+        entireTextOnly: false,
+        mode: 2,
+        //doesnt scale up when width changes
+        // autoScale: false,
+        drawTicks: true,
+        scaleMargins: {
+          top: 0,
+          bottom: 0,
+        },
       },
       width: chartContainerRef.current.clientWidth,
       height: 300,
@@ -99,7 +126,27 @@ const lightWeightChart = () => {
     areaBottomColor,
   ]);
 
-  return <div ref={chartContainerRef} />;
+  return (
+    <div>
+      <div ref={chartContainerRef} />
+
+      <div className='flex flex-row justify-between items-center w-64'>
+        {locales.map((loc, index) => {
+          return (
+            <div
+              className='p-2 bg-blue-400 rounded-lg my-2 w-16 text-center text-xs text-white cursor-pointer'
+              onClick={() => {
+                setLocale(loc);
+              }}
+              key={index}
+            >
+              <p>{loc}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default lightWeightChart;

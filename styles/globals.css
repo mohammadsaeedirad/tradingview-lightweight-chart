@@ -13,7 +13,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
+p {
+  margin-top: 4px;
+}
 * {
   box-sizing: border-box;
 }

@@ -35,6 +35,7 @@ const lightWeightChart = () => {
     { time: "2018-12-30", value: 22.68 },
     { time: "2018-12-31", value: 22.67 },
   ];
+
   const backgroundColor = "#222328";
   const lineColor = "rgba(0, 172, 59, 0.32)";
   const textColor = "white";
@@ -74,6 +75,45 @@ const lightWeightChart = () => {
       width: chartContainerRef.current.clientWidth,
       height: 300,
     });
+    let minimumPrice = data[0].value;
+    let maximumPrice = minimumPrice;
+    for (let i = 1; i < data.length; i++) {
+      const price = data[i].value;
+      if (price > maximumPrice) {
+        maximumPrice = price;
+      }
+      if (price < minimumPrice) {
+        minimumPrice = price;
+      }
+    }
+    const avgPrice = (maximumPrice + minimumPrice) / 2;
+
+    const lineWidth = 2;
+    const minPriceLine = {
+      price: minimumPrice,
+      color: "#ef5350",
+      lineWidth: lineWidth,
+      lineStyle: 2, // LineStyle.Dashed
+      axisLabelVisible: true,
+      title: "min price",
+    };
+    const avgPriceLine = {
+      price: avgPrice,
+      color: "black",
+      lineWidth: lineWidth,
+      lineStyle: 1, // LineStyle.Dotted
+      axisLabelVisible: true,
+      title: "ave price",
+    };
+    const maxPriceLine = {
+      price: maximumPrice,
+      color: "#26a69a",
+      lineWidth: lineWidth,
+      lineStyle: 2, // LineStyle.Dashed
+      axisLabelVisible: true,
+      title: "max price",
+    };
+
     chart.timeScale().fitContent();
 
     const areaSeries = chart.addAreaSeries({
@@ -82,7 +122,9 @@ const lightWeightChart = () => {
       bottomColor: areaBottomColor,
     });
     areaSeries.setData(data);
-
+    areaSeries.createPriceLine(minPriceLine);
+    areaSeries.createPriceLine(avgPriceLine);
+    areaSeries.createPriceLine(maxPriceLine);
     window.addEventListener("resize", handleResize);
 
     return () => {
