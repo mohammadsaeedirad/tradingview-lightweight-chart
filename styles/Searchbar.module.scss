@@ -1,0 +1,48 @@
+.search_card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 1rem;
+  position: relative;
+  border-radius: 15px;
+  input {
+    font-size: 10pt;
+    max-width: 16rem;
+    width: 14rem;
+    height: 40px;
+    background: none;
+    padding-right: 1.2rem;
+    text-align: right;
+    color: var(--border-color);
+  }
+  input:focus {
+    outline: none;
+  }
+  input::placeholder {
+    font-size: 8pt;
+    color: var(--dark-pen);
+  }
+  > svg {
+    position: absolute;
+    right: 6px;
+    color: var(--dark-pen);
+    font-size: 16pt;
+  }
+  a {
+    display: block;
+    width: 1rem;
+    svg {
+      position: relative;
+      right: 8px;
+      color: var(--dark-pen);
+      font-size: 12pt;
+    }
+  }
+}
+.search_modal {
+  position: absolute;
+  top: 245%;
+  transform: translate(-50%, -50%);
+  width: clamp(320px, 1050px, 90%);
+}
