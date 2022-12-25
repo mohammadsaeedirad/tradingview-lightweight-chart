@@ -522,7 +522,7 @@ const lightWeightChart = () => {
       },
       priceLineVisible: false,
       lastValueVisible: false,
-      overlay: true,
+      overlay: false,
       layout: {
         topColor: "rgba(76, 175, 80, 0.56)",
         bottomColor: "rgba(76, 175, 80, 0.04)",
