@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createChart, ColorType } from "lightweight-charts";
 const lightWeightChart = () => {
+  const [showcandle, setshowcandle] = useState(false);
+  console.log(showcandle);
   const candlestick = [
     {
       time: "2018-12-22",
@@ -145,13 +147,15 @@ const lightWeightChart = () => {
       height: 300,
     });
     chart.timeScale().fitContent();
-
     const areaSeries = chart.addAreaSeries({
       lineColor,
       topColor: areaTopColor,
       bottomColor: areaBottomColor,
     });
-    areaSeries.setData(data);
+    if (!showcandle) {
+      areaSeries.setData(data);
+    }
+
     const candlestickSeries = chart.addCandlestickSeries({
       upColor: "#4bffb5",
       downColor: "#ff4976",
@@ -160,7 +164,9 @@ const lightWeightChart = () => {
       wickDownColor: "#838ca1",
       wickUpColor: "#838ca1",
     });
-    candlestickSeries.setData(candlestick);
+    if (showcandle) {
+      candlestickSeries.setData(candlestick);
+    }
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -178,7 +184,13 @@ const lightWeightChart = () => {
     areaBottomColor,
   ]);
 
-  return <div ref={chartContainerRef} />;
+  return (
+    <>
+      <div onClick={() => setshowcandle(true)}>candle</div>
+      <div onClick={() => setshowcandle(false)}>line</div>
+      <div ref={chartContainerRef} />
+    </>
+  );
 };
 
 export default lightWeightChart;
